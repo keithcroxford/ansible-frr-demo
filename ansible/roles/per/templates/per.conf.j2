@@ -1,0 +1,33 @@
+frr version 7.7-dev_git
+frr defaults traditional
+hostname {{hostname}}
+log file /var/log/zebra.log
+no ipv6 forwarding
+service integrated-vtysh-config
+username {{root_user}} {{root_password}}
+
+enable password {{enable_password}}
+!
+interface eth0
+ description inside interface
+!
+interface eth1
+ description inside interface
+ ip address {{}}
+!
+interface lo
+ description test of desc.
+!
+router bgp 65000
+ neighbor 172.50.50.3 remote-as 65000
+ !
+ address-family ipv4 unicast
+  network 172.50.50.0/24
+ exit-address-family
+!
+access-list BGP_TRUST seq 5 permit 172.50.50.3 0.0.0.0
+!
+route-map BGPIN permit 1
+!
+line vty
+!

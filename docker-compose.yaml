@@ -1,0 +1,49 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  per01:
+    image: frrouting/frr
+    container_name: per01
+    build: .
+    volumes:
+      - ./per01/etc:/etc/frr
+      - ./per01/logs:/var/log
+    cap_add:
+      - CAP_SYS_ADMIN
+      - CAP_NET_ADMIN
+      - CAP_NET_RAW
+    networks:
+      external:
+        ipv4_address: 192.50.50.100
+      internal:
+        ipv4_address: 172.50.50.100
+
+  per02:
+    image: frrouting/frr
+    container_name: per02
+    build: .
+    volumes:
+      - ./per02/etc:/etc/frr
+      - ./per02/logs:/var/log
+    cap_add:
+      - CAP_SYS_ADMIN
+      - CAP_NET_ADMIN
+      - CAP_NET_RAW
+    networks:
+      external:
+        ipv4_address: 192.50.50.200
+      internal:
+        ipv4_address: 172.50.50.200
+
+networks:
+    external:
+        # use the bridge driver, but enable IPv6
+        ipam:
+            config:
+                - subnet: 192.50.50.0/24
+                  gateway: 192.50.50.1
+    internal:
+        # use a custom driver, with no options
+        ipam:
+            config:
+                - subnet: 172.50.50.0/24
+                  gateway: 172.50.50.1
