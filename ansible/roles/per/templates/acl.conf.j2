@@ -1,0 +1,3 @@
+{% for acl in access-lists %}
+access-list {{ acl.name }} seq {{ acl.sequence }} {{acl.action}} {{ acl.ip }} {{ acl.rmask }}
+{ % endfor %}

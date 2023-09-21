@@ -1,0 +1,11 @@
+{% for asn in bgp %}
+
+router bgp {{ asn.local }}
+ neighbor {{ asn.remote_ip }} remote-as {{ asn.remote_asn }}
+ address-family {{ asn.address_family }} unicast
+  {% for network in asn.advertised_networks %}
+  network {{ advertised_network }}
+  {% endfor %}
+ exit-address-family
+ 
+{% endfor %}

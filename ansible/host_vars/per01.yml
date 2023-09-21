@@ -1,0 +1,42 @@
+interfaces:
+  - name: eth01
+    description: Interface eth01 
+    ip_address: 192.50.50.100
+    netmask: 255.255.255.0
+  - name: eth02
+    description: Interface eth02
+    ip_address: 172.50.50.100
+    netmask: 255.255.255.0
+  - name: lo1
+    description: Interface loopback1
+    ip_address: 1.1.1.1
+
+bgp:
+  - asn_local: 65000
+    remote_ip: 1.1.1.1
+    remote_asn: 65001
+    address_family: ipv4
+    advertised_networks:
+      - 172.50.50.0/24 
+
+route-maps:
+  - name: BGP1
+    action: permit
+    sequence: 1
+
+access-lists:
+  - name: test_list
+    sequence: 5
+    actions: permit
+    ip: 4.4.4.4
+    rmask: 0.0.0.0
+    
+  - name: test_list2
+    sequence: 10
+    actions: deny
+    ip: 5.5.5.5
+    rmask: 0.0.0.0
+
+
+
+
